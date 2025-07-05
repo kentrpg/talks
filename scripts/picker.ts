@@ -27,6 +27,12 @@ async function startPicker(args: string[]) {
   if (result.folder) {
     if (args[0] === 'dev')
       execa('cursor', [fileURLToPath(new URL(`../${result.folder}/src/slides.md`, import.meta.url))])
+    if (args[0] === 'build') {
+      await execa('pnpm', ['rimraf', 'dist'], {
+        cwd: new URL(`../${result.folder}/src`, import.meta.url),
+        stdio: 'inherit',
+      })
+    }
     if (args[0] === 'export') {
       const slidesPath = new URL(`../${result.folder}/src/slides.md`, import.meta.url)
       const slidesContent = await fs.readFile(slidesPath, 'utf-8')
