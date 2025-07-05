@@ -27,6 +27,23 @@ async function startPicker(args: string[]) {
   if (result.folder) {
     if (args[0] === 'dev')
       execa('cursor', [fileURLToPath(new URL(`../${result.folder}/src/slides.md`, import.meta.url))])
+    if (args[0] === 'export') {
+      const slidesPath = new URL(`../${result.folder}/src/slides.md`, import.meta.url)
+      const slidesContent = await fs.readFile(slidesPath, 'utf-8')
+      const frontmatterMatch = slidesContent.match(/^---([\s\S]*?)---/)
+      let title = ''
+      let fileName = result.folder
+      if (frontmatterMatch) {
+        const frontmatter = frontmatterMatch[1]
+        const titleMatch = frontmatter.match(/title:\s*(.+)/)
+        if (titleMatch) {
+          title = titleMatch[1].trim().replace(/^['"]|['"]$/g, '')
+        }
+      }
+      if (title)
+        fileName = title.replace(/[^\w\-\u4E00-\u9FA5 ]+/g, '').replace(/\s+/g, '-')
+      args.push('--output', `../${fileName}.pdf`)
+    }
     await execa('pnpm', ['run', ...args], {
       cwd: new URL(`../${result.folder}/src`, import.meta.url),
       stdio: 'inherit',

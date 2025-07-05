@@ -7,7 +7,7 @@
     "dev": "pnpm run picker dev --open",
     "build": "rimraf dist && pnpm run picker build",
     "build:all": "pnpm -r run build",
-    "typecheck": "vue-tsc --noEmit",
+    "export": "pnpm run picker export",
     "lint": "eslint .",
     "picker": "esno scripts/picker.ts"
   },
@@ -23,6 +23,7 @@
     "eslint-plugin-format": "catalog:",
     "eslint-plugin-markdown": "catalog:",
     "esno": "catalog:",
+    "playwright-chromium": "catalog:",
     "rimraf": "catalog:",
     "vue": "catalog:"
   }
