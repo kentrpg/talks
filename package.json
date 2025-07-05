@@ -1,0 +1,28 @@
+{
+  "name": "talks",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@10.10.0",
+  "scripts": {
+    "dev": "pnpm run picker dev --open",
+    "build": "rimraf dist && pnpm run picker build",
+    "build:all": "rimraf dist && pnpm -r run build",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint .",
+    "picker": "esno scripts/picker.ts"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:",
+    "@eslint/markdown": "catalog:",
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "@slidev/theme-seriph": "catalog:",
+    "@types/node": "catalog:",
+    "@types/prompts": "catalog:",
+    "eslint": "catalog:",
+    "eslint-plugin-format": "catalog:",
+    "eslint-plugin-markdown": "catalog:",
+    "esno": "catalog:",
+    "vue": "catalog:"
+  }
+}
