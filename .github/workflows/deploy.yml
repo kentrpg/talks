@@ -1,0 +1,298 @@
+name: Deploy Slidev Presentations
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs:
+      has-valid-slidev: ${{ steps.validate-structure.outputs.has-valid-slidev }}
+      slidev-folders: ${{ steps.validate-structure.outputs.slidev-folders }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Validate Slidev Structure
+        id: validate-structure
+        run: |
+          # 檢查是否有有效的 Slidev 資料夾
+          HAS_VALID_SLIDEV=false
+          SLIDEV_FOLDERS=""
+
+          # 掃描所有符合格式的資料夾
+          for folder in */; do
+            folder_name=$(basename "$folder")
+
+            # 檢查資料夾名稱是否符合四個數字開頭的格式
+            if [[ $folder_name =~ ^[0-9]{4}- ]]; then
+              echo "檢查資料夾: $folder_name"
+
+              # 檢查是否有 src 子目錄
+              if [ -d "$folder_name/src" ]; then
+                echo "✓ 找到 src 子目錄"
+
+                # 檢查是否有 slides.md 檔案
+                if [ -f "$folder_name/src/slides.md" ]; then
+                  echo "✓ 找到 slides.md 檔案"
+                  HAS_VALID_SLIDEV=true
+
+                  # 加入到 SLIDEV_FOLDERS 清單
+                  if [ -z "$SLIDEV_FOLDERS" ]; then
+                    SLIDEV_FOLDERS="$folder_name"
+                  else
+                    SLIDEV_FOLDERS="$SLIDEV_FOLDERS,$folder_name"
+                  fi
+                  echo "✓ 加入資料夾: $folder_name"
+                else
+                  echo "✗ 未找到 slides.md 檔案在 $folder_name/src/"
+                fi
+              else
+                echo "✗ 未找到 src 子目錄在 $folder_name/"
+              fi
+            fi
+          done
+
+          echo "has-valid-slidev=$HAS_VALID_SLIDEV" >> $GITHUB_OUTPUT
+          echo "slidev-folders=$SLIDEV_FOLDERS" >> $GITHUB_OUTPUT
+
+          if [ "$HAS_VALID_SLIDEV" = "true" ]; then
+            echo "✅ 發現有效的 Slidev 專案結構"
+            echo "📁 資料夾: $SLIDEV_FOLDERS"
+          else
+            echo "❌ 未發現有效的 Slidev 專案結構"
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - name: Setup @antfu/ni
+        run: npm i -g @antfu/ni
+
+      - name: Install dependencies
+        run: nci
+
+      - name: Run lint
+        run: nr lint
+
+      - name: Run typecheck
+        run: nr typecheck
+
+      - name: Create unified dist directory
+        run: |
+          # 建立統一的 dist 目錄
+          mkdir -p dist
+          
+          # 直接掃描 */src 目錄並驗證
+          found_valid_slidev=false
+          for src_path in */src; do
+            # 確認路徑存在（避免 glob 沒有匹配的情況）
+            if [ ! -d "$src_path" ]; then
+              continue
+            fi
+            
+            # 取得資料夾名稱
+            folder=$(dirname "$src_path")
+            
+            # 驗證資料夾名稱是否符合 YYYY-MM-DD 格式
+            if [[ ! $folder =~ ^[0-9]{4}- ]]; then
+              echo "⚠️ 跳過資料夾 $folder (不符合日期格式)"
+              continue
+            fi
+            
+            # 驗證是否有 slides.md 檔案
+            if [ ! -f "$src_path/slides.md" ]; then
+              echo "⚠️ 跳過資料夾 $folder (缺少 slides.md)"
+              continue
+            fi
+            
+            echo "正在建置 $folder..."
+            found_valid_slidev=true
+            
+            # 進入資料夾並安裝依賴
+            cd "$src_path"
+            nci
+            
+            # 建置簡報，使用正確的 base path
+            nr build -- --base "/talks/$folder/"
+            
+            # 複製建置結果到統一的 dist 目錄
+            mkdir -p "../../dist/$folder"
+            cp -r dist/* "../../dist/$folder/"
+            
+            # 回到根目錄
+            cd ../..
+            
+            echo "✓ 完成建置 $folder"
+          done
+          
+          # 檢查是否找到有效的 Slidev 專案
+          if [ "$found_valid_slidev" = false ]; then
+            echo "❌ 沒有找到有效的 Slidev 專案"
+            exit 1
+          fi
+          
+      - name: Generate index page
+        run: |
+          # 建立 HTML 索引頁面
+          cat > dist/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="zh-TW">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Slidev 簡報集合</title>
+            <style>
+              body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem;
+                line-height: 1.6;
+                color: #333;
+              }
+              h1 {
+                color: #2d3748;
+                border-bottom: 3px solid #4299e1;
+                padding-bottom: 0.5rem;
+              }
+              .presentation-list {
+                display: grid;
+                gap: 1rem;
+                margin-top: 2rem;
+              }
+              .presentation-item {
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 1.5rem;
+                background: #f7fafc;
+                transition: transform 0.2s, box-shadow 0.2s;
+              }
+              .presentation-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+              }
+              .presentation-link {
+                color: #4299e1;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1.1rem;
+              }
+              .presentation-link:hover {
+                text-decoration: underline;
+              }
+              .presentation-date {
+                color: #718096;
+                font-size: 0.9rem;
+                margin-top: 0.5rem;
+              }
+              footer {
+                margin-top: 3rem;
+                padding-top: 2rem;
+                border-top: 1px solid #e2e8f0;
+                text-align: center;
+                color: #718096;
+              }
+            </style>
+          </head>
+          <body>
+            <h1>🎯 Slidev 簡報集合</h1>
+            <p>這裡收集了所有使用 Slidev 製作的簡報。</p>
+            
+            <div class="presentation-list">
+          EOF
+          
+          # 直接掃描 */src 目錄並生成連結
+          for src_path in */src; do
+            # 確認路徑存在
+            if [ ! -d "$src_path" ]; then
+              continue
+            fi
+            
+            # 取得資料夾名稱
+            folder=$(dirname "$src_path")
+            
+            # 驗證資料夾名稱是否符合 YYYY-MM-DD 格式
+            if [[ ! $folder =~ ^[0-9]{4}- ]]; then
+              continue
+            fi
+            
+            # 驗證是否有 slides.md 檔案
+            if [ ! -f "$src_path/slides.md" ]; then
+              continue
+            fi
+            
+            # 嘗試從 slides.md 讀取標題
+            TITLE=""
+            if [ -f "$src_path/slides.md" ]; then
+              TITLE=$(grep -m 1 "^title:" "$src_path/slides.md" | sed 's/title: *//' | sed 's/^["'\'']//' | sed 's/["'\'']$//')
+            fi
+            
+            # 如果沒有標題，使用資料夾名稱
+            if [ -z "$TITLE" ]; then
+              TITLE="$folder"
+            fi
+            
+            cat >> dist/index.html << EOF
+            <div class="presentation-item">
+              <a href="./$folder/" class="presentation-link">$TITLE</a>
+              <div class="presentation-date">📅 $folder</div>
+            </div>
+          EOF
+          done
+          
+          cat >> dist/index.html << 'EOF'
+            </div>
+            
+            <footer>
+              <p>使用 <a href="https://sli.dev" target="_blank">Slidev</a> 製作 • 部署於 GitHub Pages</p>
+            </footer>
+          </body>
+          </html>
+          EOF
+          
+          echo "✓ 生成索引頁面完成"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
