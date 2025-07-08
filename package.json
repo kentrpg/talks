@@ -23,6 +23,7 @@
     "eslint-plugin-format": "catalog:",
     "eslint-plugin-markdown": "catalog:",
     "esno": "catalog:",
+    "execa": "catalog:",
     "playwright-chromium": "catalog:",
     "rimraf": "catalog:",
     "vue": "catalog:"
