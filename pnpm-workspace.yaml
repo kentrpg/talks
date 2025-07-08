@@ -6,7 +6,6 @@ catalog:
   '@slidev/cli': ^52.0.0
   '@slidev/theme-default': latest
   '@slidev/theme-seriph': latest
-  '@sxzz/prettier-config': ^0.0.0
   '@types/node': ^24.0.8
   '@types/prompts': ^2.4.9
   eslint: ^9.22.0
