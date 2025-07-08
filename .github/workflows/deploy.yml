@@ -104,7 +104,7 @@ jobs:
         run: |
           # 建立統一的 dist 目錄
           mkdir -p dist
-          
+
           # 直接掃描 */src 目錄並驗證
           found_valid_slidev=false
           for src_path in */src; do
@@ -112,48 +112,48 @@ jobs:
             if [ ! -d "$src_path" ]; then
               continue
             fi
-            
+
             # 取得資料夾名稱
             folder=$(dirname "$src_path")
-            
+
             # 驗證資料夾名稱是否符合 YYYY-MM-DD 格式
             if [[ ! $folder =~ ^[0-9]{4}- ]]; then
               echo "⚠️ 跳過資料夾 $folder (不符合日期格式)"
               continue
             fi
-            
+
             # 驗證是否有 slides.md 檔案
             if [ ! -f "$src_path/slides.md" ]; then
               echo "⚠️ 跳過資料夾 $folder (缺少 slides.md)"
               continue
             fi
-            
+
             echo "正在建置 $folder..."
             found_valid_slidev=true
-            
+
             # 進入資料夾並安裝依賴
             cd "$src_path"
             nci
-            
+
             # 建置簡報，使用正確的 base path
             nr build -- --base "/talks/$folder/"
-            
+
             # 複製建置結果到統一的 dist 目錄
             mkdir -p "../../dist/$folder"
             cp -r dist/* "../../dist/$folder/"
-            
+
             # 回到根目錄
             cd ../..
-            
+
             echo "✓ 完成建置 $folder"
           done
-          
+
           # 檢查是否找到有效的 Slidev 專案
           if [ "$found_valid_slidev" = false ]; then
             echo "❌ 沒有找到有效的 Slidev 專案"
             exit 1
           fi
-          
+
       - name: Generate index page
         run: |
           # 建立 HTML 索引頁面
@@ -220,41 +220,41 @@ jobs:
           <body>
             <h1>🎯 Slidev 簡報集合</h1>
             <p>這裡收集了所有使用 Slidev 製作的簡報。</p>
-            
+
             <div class="presentation-list">
           EOF
-          
+
           # 直接掃描 */src 目錄並生成連結
           for src_path in */src; do
             # 確認路徑存在
             if [ ! -d "$src_path" ]; then
               continue
             fi
-            
+
             # 取得資料夾名稱
             folder=$(dirname "$src_path")
-            
+
             # 驗證資料夾名稱是否符合 YYYY-MM-DD 格式
             if [[ ! $folder =~ ^[0-9]{4}- ]]; then
               continue
             fi
-            
+
             # 驗證是否有 slides.md 檔案
             if [ ! -f "$src_path/slides.md" ]; then
               continue
             fi
-            
+
             # 嘗試從 slides.md 讀取標題
             TITLE=""
             if [ -f "$src_path/slides.md" ]; then
               TITLE=$(grep -m 1 "^title:" "$src_path/slides.md" | sed 's/title: *//' | sed 's/^["'\'']//' | sed 's/["'\'']$//')
             fi
-            
+
             # 如果沒有標題，使用資料夾名稱
             if [ -z "$TITLE" ]; then
               TITLE="$folder"
             fi
-            
+
             cat >> dist/index.html << EOF
             <div class="presentation-item">
               <a href="./$folder/" class="presentation-link">$TITLE</a>
@@ -262,17 +262,17 @@ jobs:
             </div>
           EOF
           done
-          
+
           cat >> dist/index.html << 'EOF'
             </div>
-            
+
             <footer>
               <p>使用 <a href="https://sli.dev" target="_blank">Slidev</a> 製作 • 部署於 GitHub Pages</p>
             </footer>
           </body>
           </html>
           EOF
-          
+
           echo "✓ 生成索引頁面完成"
 
       - name: Setup Pages
