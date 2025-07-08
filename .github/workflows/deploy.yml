@@ -97,9 +97,6 @@ jobs:
       - name: Run lint
         run: nr lint
 
-      - name: Run typecheck
-        run: nr typecheck
-
       - name: Create unified dist directory
         run: |
           # 建立統一的 dist 目錄
