@@ -39,6 +39,9 @@ catalogs:
     esno:
       specifier: ^4.8.0
       version: 4.8.0
+    execa:
+      specifier: ^9.6.0
+      version: 9.6.0
     playwright-chromium:
       specifier: ^1.53.2
       version: 1.53.2
@@ -87,7 +90,7 @@ importers:
         specifier: 'catalog:'
         version: 4.8.0
       execa:
-        specifier: ^9.6.0
+        specifier: 'catalog:'
         version: 9.6.0
       playwright-chromium:
         specifier: 'catalog:'
