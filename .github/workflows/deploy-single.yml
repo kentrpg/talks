@@ -55,7 +55,15 @@ jobs:
 
       - name: Build presentation
         working-directory: ${{ github.event.inputs.presentation_folder }}/src
-        run: nr build -- --base /talks/
+        env:
+          BASE_PATH: ${{ github.event.repository.name == 'github.io' && '/' || format('/{0}/', github.event.repository.name) }}
+        run: |
+          echo "Building presentation with base path: $BASE_PATH"
+          nr build -- --base "$BASE_PATH"
+          echo "Build completed, checking dist directory:"
+          ls -la dist/
+          echo "Checking for index.html:"
+          cat dist/index.html | head -20
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
