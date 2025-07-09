@@ -8,17 +8,16 @@
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      margin: 0;
-      padding: 2rem;
       background-color: #ffffff;
       color: #333;
+      margin: 0;
+      padding: 2rem;
     }
     
     h1 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: normal;
-      margin: 0 0 2rem 0;
-      color: #333;
+      margin-bottom: 1.25rem;
     }
     
     .presentation-list {
@@ -28,21 +27,20 @@
     }
     
     .presentation-item {
+      width: calc(25% - 1.125rem);
+      min-width: 200px;
       display: flex;
       align-items: center;
       gap: 0.5rem;
       text-decoration: none;
-      color: #0066cc;
       font-size: 1rem;
-      padding: 0.25rem;
+      font-weight: 300;
       border-radius: 4px;
       transition: background-color 0.2s;
-      width: calc(25% - 1.125rem);
-      min-width: 200px;
+      padding: 0.25rem;
     }
     
-    .presentation-item:hover {
-      background-color: #f0f8ff;
+    .presentation-item:hover > .presentation-name{
       text-decoration: underline;
     }
     
