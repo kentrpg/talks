@@ -28,10 +28,10 @@ for folder_path in dist/*/; do
   folder=$(basename "$folder_path")
   
   ITEM_HTML=$(cat << EOF
-      <div class="presentation-item">
-        <a href="./$folder/" class="presentation-link">$folder</a>
-        <div class="presentation-date">📅 $folder</div>
-      </div>
+      <a href="./$folder/" class="presentation-item">
+        <span class="material-symbols-outlined">folder_open</span>
+        <span class="presentation-name">$folder</span>
+      </a>
 EOF
 )
   
@@ -41,9 +41,14 @@ done
 
 if [ $presentation_count -eq 0 ]; then
   PRESENTATION_ITEMS='
-      <div class="empty-state">
-        <p>no presentations</p>
+      <div style="color: #666; font-style: italic; padding: 2rem;">
+        <p>no presentations available</p>
       </div>'
 fi
+
+
+OUTPUT_CONTENT="${TEMPLATE_CONTENT//\{\{PRESENTATION_ITEMS\}\}/$PRESENTATION_ITEMS}"
+
+echo "$OUTPUT_CONTENT" > dist/index.html
 
 echo "success generate index page with $presentation_count presentations" 
