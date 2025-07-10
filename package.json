@@ -9,7 +9,7 @@
     "build:all": "pnpm -r run build",
     "export": "pnpm run picker export",
     "lint": "eslint .",
-    "picker": "esno scripts/picker.ts"
+    "picker": "esno scripts/dev/picker.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
