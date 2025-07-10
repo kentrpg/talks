@@ -13,6 +13,7 @@ catalog:
   eslint-plugin-markdown: ^5.1.0
   esno: ^4.8.0
   execa: ^9.6.0
+  markdown-it-magic-link: ^0.1.4
   playwright-chromium: ^1.53.2
   rimraf: ^6.0.1
   vue: ^3.5.17

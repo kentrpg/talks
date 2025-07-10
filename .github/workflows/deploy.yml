@@ -51,11 +51,11 @@ jobs:
           path: dist
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: validate-and-build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: validate-and-build
     steps:
       - name: Deploy all presentations to GitHub Pages
         id: deployment

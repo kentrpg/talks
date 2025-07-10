@@ -24,6 +24,7 @@
     "eslint-plugin-markdown": "catalog:",
     "esno": "catalog:",
     "execa": "catalog:",
+    "markdown-it-magic-link": "catalog:",
     "playwright-chromium": "catalog:",
     "rimraf": "catalog:",
     "vue": "catalog:"

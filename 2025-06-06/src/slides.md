@@ -36,3 +36,7 @@ mdc: true
 **bar** {.text-green}
 
 _123_ {.text-blue}
+
+---
+
+# two
