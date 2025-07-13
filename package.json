@@ -9,10 +9,13 @@
     "build:all": "pnpm -r run build",
     "export": "pnpm run picker export",
     "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck",
+    "typecheck:strict": "vue-tsc --noEmit",
     "picker": "esno scripts/dev/picker.ts"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@eslint/config-inspector": "catalog:",
     "@eslint/markdown": "catalog:",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
@@ -27,6 +30,8 @@
     "markdown-it-magic-link": "catalog:",
     "playwright-chromium": "catalog:",
     "rimraf": "catalog:",
-    "vue": "catalog:"
+    "typescript": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

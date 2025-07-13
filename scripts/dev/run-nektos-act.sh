@@ -22,44 +22,44 @@ cleanup_folder() {
 }
 
 select_workflow() {
-  workflows=($(ls .github/workflows/*.yml 2>/dev/null | xargs -n1 basename))
-  if [ ${#workflows[@]} -eq 0 ]; then
-      echo "❌  No workflow files found in .github/workflows/"
-      exit 1
-  fi
+    workflows=($(ls .github/workflows/*.yml 2>/dev/null | xargs -n1 basename))
+    if [ ${#workflows[@]} -eq 0 ]; then
+        echo "❌  No workflow files found in .github/workflows/"
+        exit 1
+    fi
 
-  echo "Please enter the number to select a workflow file to run:"
-  select workflow in "${workflows[@]}"; do
-      if [ -n "$workflow" ]; then
-          break
-      else
-          echo "please enter a valid option."
-      fi
-  done
+    echo "Please enter the number to select a workflow file to run:"
+    select workflow in "${workflows[@]}"; do
+    if [ -n "$workflow" ]; then
+        break
+    else
+        echo "please enter a valid option."
+    fi
+    done
 }
 
 extract_artifacts() {
-  zip_file=".artifacts/1/github-pages/github-pages.zip"
-  if [ -f "$zip_file" ]; then
-      cd .artifacts/1/github-pages/
-      cleanup_folder talks
-      echo  "🚀  Start extracting $zip_file"
-      ditto -x -k github-pages.zip .
-      mkdir -p talks
-      tar -xf artifact.tar -C talks
-      echo "✅  Success - extracted artifacts to talks folder"
-      rm -f artifact.tar
-  else
-      echo "❌  Error - artifact zip file not found: $zip_file" >&2
-      exit 1
-  fi
+    zip_file=".artifacts/1/github-pages/github-pages.zip"
+    if [ -f "$zip_file" ]; then
+        cd .artifacts/1/github-pages/
+        cleanup_folder talks
+        echo  "🚀  Start extracting $zip_file"
+        ditto -x -k github-pages.zip .
+        mkdir -p talks
+        tar -xf artifact.tar -C talks
+        echo "✅  Success - extracted artifacts to talks folder"
+        rm -f artifact.tar
+    else
+        echo "❌  Error - artifact zip file not found: $zip_file" >&2
+        exit 1
+    fi
 }
 
 npx_serve() {
-  npx serve -l 4173 . &
-  sleep 2
-  open "http://localhost:4173/talks/"
-  wait
+    npx serve -l 4173 . &
+    sleep 2
+    open "http://localhost:4173/talks/"
+    wait
 }
 
 cleanup_folder .artifacts
