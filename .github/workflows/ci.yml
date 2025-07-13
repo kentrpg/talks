@@ -28,9 +28,6 @@ jobs:
         with:
           version: 10.10.0
 
-      - name: Install Dependencies
-        run: pnpm install
-
       - name: Get pnpm store path
         id: get-store
         run: echo "store-path=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
@@ -42,6 +39,9 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
+
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: Lint
         run: pnpm lint
