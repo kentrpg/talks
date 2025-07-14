@@ -10,64 +10,64 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      slidev: ${{ steps.filter.outputs.slidev }}
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          base: main
+          filters: |
+            slidev:
+              - '2025-06-06/**'
+
   lint:
     runs-on: ubuntu-latest
-    outputs:
-      store-path: ${{ steps.get-store.outputs.store-path }}
+    needs: changes
+    if: ${{ needs.changes.outputs.slidev == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'lts/*'
-
-      - name: Setup PNPP
+      - name: Setup PNPM
         uses: pnpm/action-setup@v4
         with:
           version: 10.10.0
 
+      - name: Setup Node with pnpm cache
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: pnpm
+
       - name: Install Dependencies
         run: pnpm install
-
-      - name: Get pnpm store path
-        id: get-store
-        run: echo "store-path=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
-
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.get-store.outputs.store-path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
 
       - name: Lint
         run: pnpm lint
 
   typecheck:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: changes
+    if: ${{ needs.changes.outputs.slidev == 'true' }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
+      - uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 10.10.0
 
-      - name: Setup pnpm cache
-        uses: actions/cache@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          path: ${{ needs.lint.outputs.store-path }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
+          node-version: 'lts/*'
+          cache: pnpm
 
       - name: Install Dependencies
         run: pnpm install
