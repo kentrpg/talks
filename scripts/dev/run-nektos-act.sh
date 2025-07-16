@@ -62,17 +62,21 @@ npx_serve() {
     wait
 }
 
-cleanup_folder .artifacts
+main() {
+    cleanup_folder .artifacts
 
-select_workflow
+    select_workflow
 
-DOCKER_HOST=unix:///Users/kent/.orbstack/run/docker.sock act \
-    -s GITHUB_TOKEN="$(gh auth token)" \
-    --container-architecture linux/amd64 \
-    -W .github/workflows/$workflow \
-    -j validate-and-build \
-    --artifact-server-path "$PWD/.artifacts"
+    DOCKER_HOST=unix:///Users/kent/.orbstack/run/docker.sock act \
+        -s GITHUB_TOKEN="$(gh auth token)" \
+        --container-architecture linux/amd64 \
+        -W .github/workflows/$workflow \
+        -j validate-and-build \
+        --artifact-server-path "$PWD/.artifacts"
 
-extract_artifacts
+    extract_artifacts
 
-npx_serve
+    npx_serve    
+}
+
+main

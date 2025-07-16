@@ -60,7 +60,7 @@ jobs:
           projects=$(echo "$changed" \
             | tr ' ' '\n' \
             | cut -d/ -f1 \
-            | grep -Ff <(cat .slidev-projects.list) \
+            | grep -Ff <(cat .github/.cache/slidev-projects.list) \
             | sort -u \
             | jq -Rc '[splits("\n") | select(. != "")]' \
             || echo "[]"
