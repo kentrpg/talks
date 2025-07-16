@@ -13,44 +13,14 @@ jobs:
   prepare-projects:
     runs-on: ubuntu-latest
     outputs:
-      updated: ${{ steps.check-update.outputs.updated }}
+      updated: ${{ steps.prepare.outputs.updated }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Restore slidev project list from cache
-        id: cache-projects-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: .slidev-projects.list
-          key: ${{ runner.os }}-slidev-projects-v1
-
-      - name: Generate slidev project list
-        run: |
-          find . -maxdepth 2 -type d -path "./[0-9][0-9][0-9][0-9]-*/src" \
-            | cut -d/ -f2 \
-            | sort > current.list \
-            && cat current.list
-
-      - name: Compare with cached list
-        id: check-update
-        run: |
-          mkdir -p .github/.cache
-
-          if ! diff -q current.list .slidev-projects.list >/dev/null 2>&1; then
-            echo "updated=true" >> $GITHUB_OUTPUT
-            cp current.list .slidev-projects.list
-          else
-            echo "updated=false" >> $GITHUB_OUTPUT
-            cat .slidev-projects.list
-          fi
-
-      - name: Save slidev project list to cache
-        if: steps.check-update.outputs.updated == 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: .slidev-projects.list
-          key: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}
+      - name: Prepare projects
+        id: prepare
+        uses: ./.github/actions/prepare-projects
 
   changes:
     runs-on: ubuntu-latest
@@ -81,7 +51,7 @@ jobs:
         id: cache-projects-restore-changes
         uses: actions/cache/restore@v4
         with:
-          path: .slidev-projects.list
+          path: .github/.cache/slidev-projects.list
           key: ${{ runner.os }}-slidev-projects-v1
 
       - name: Extract changed slidev projects
@@ -92,7 +62,7 @@ jobs:
           projects=$(echo "$changed" \
             | tr ' ' '\n' \
             | cut -d/ -f1 \
-            | grep -Ff <(cat .slidev-projects.list) \
+            | grep -Ff <(cat .github/.cache/slidev-projects.list) \
             | sort -u \
             | jq -Rc '[splits("\n") | select(. != "")]' \
             || echo "[]"

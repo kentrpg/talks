@@ -1,0 +1,60 @@
+name: Prepare Slidev Projects
+description: Generate and cache slidev project list with change detection
+inputs:
+  cache-key-prefix:
+    description: Cache key prefix
+    required: false
+    default: slidev-projects-v1
+  project-pattern:
+    description: Pattern to find slidev projects
+    required: false
+    default: './[0-9][0-9][0-9][0-9]-*/src'
+  cache-file-path:
+    description: Path to cache file
+    required: false
+    default: .github/.cache/slidev-projects.list
+outputs:
+  updated:
+    description: Whether the project list was updated
+    value: ${{ steps.check-update.outputs.updated }}
+  cache-primary-key:
+    description: Cache primary key for save operation
+    value: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}
+runs:
+  using: composite
+  steps:
+    - name: Restore slidev project list from cache
+      id: cache-projects-restore
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ inputs.cache-file-path }}
+        key: ${{ runner.os }}-${{ inputs.cache-key-prefix }}
+
+    - name: Generate slidev project list
+      run: |
+        find . -maxdepth 2 -type d -path "${{ inputs.project-pattern }}" \
+          | cut -d/ -f2 \
+          | sort > current.list \
+          && cat current.list
+      shell: bash
+
+    - name: Compare with cached list
+      id: check-update
+      run: |
+        mkdir -p "$(dirname "${{ inputs.cache-file-path }}")"
+
+        if ! diff -q current.list "${{ inputs.cache-file-path }}" >/dev/null 2>&1; then
+          echo "updated=true" >> $GITHUB_OUTPUT
+          cp current.list "${{ inputs.cache-file-path }}"
+        else
+          echo "updated=false" >> $GITHUB_OUTPUT
+          cat "${{ inputs.cache-file-path }}"
+        fi
+      shell: bash
+
+    - name: Save slidev project list to cache
+      if: steps.check-update.outputs.updated == 'true'
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ inputs.cache-file-path }}
+        key: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}
