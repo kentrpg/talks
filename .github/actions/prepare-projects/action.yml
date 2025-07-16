@@ -1,25 +1,12 @@
 name: Prepare Slidev Projects
-description: Generate and cache slidev project list with change detection
-inputs:
-  cache-key-prefix:
-    description: Cache key prefix
-    required: false
-    default: slidev-projects-v1
-  project-pattern:
-    description: Pattern to find slidev projects
-    required: false
-    default: './[0-9][0-9][0-9][0-9]-*/src'
-  cache-file-path:
-    description: Path to cache file
-    required: false
-    default: .github/.cache/slidev-projects.list
+description: Generate and cache list of slidev projects, detect changes in project list
+author: Kent
+
 outputs:
   updated:
-    description: Whether the project list was updated
+    description: Whether the project list has been updated
     value: ${{ steps.check-update.outputs.updated }}
-  cache-primary-key:
-    description: Cache primary key for save operation
-    value: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}
+
 runs:
   using: composite
   steps:
@@ -27,34 +14,34 @@ runs:
       id: cache-projects-restore
       uses: actions/cache/restore@v4
       with:
-        path: ${{ inputs.cache-file-path }}
-        key: ${{ runner.os }}-${{ inputs.cache-key-prefix }}
+        path: .slidev-projects.list
+        key: ${{ runner.os }}-slidev-projects-v1
 
     - name: Generate slidev project list
+      shell: bash
       run: |
-        find . -maxdepth 2 -type d -path "${{ inputs.project-pattern }}" \
+        find . -maxdepth 2 -type d -path "./[0-9][0-9][0-9][0-9]-*/src" \
           | cut -d/ -f2 \
           | sort > current.list \
           && cat current.list
-      shell: bash
 
     - name: Compare with cached list
       id: check-update
+      shell: bash
       run: |
-        mkdir -p "$(dirname "${{ inputs.cache-file-path }}")"
+        mkdir -p .github/.cache
 
-        if ! diff -q current.list "${{ inputs.cache-file-path }}" >/dev/null 2>&1; then
+        if ! diff -q current.list .slidev-projects.list >/dev/null 2>&1; then
           echo "updated=true" >> $GITHUB_OUTPUT
-          cp current.list "${{ inputs.cache-file-path }}"
+          cp current.list .slidev-projects.list
         else
           echo "updated=false" >> $GITHUB_OUTPUT
-          cat "${{ inputs.cache-file-path }}"
+          cat .slidev-projects.list
         fi
-      shell: bash
 
     - name: Save slidev project list to cache
       if: steps.check-update.outputs.updated == 'true'
       uses: actions/cache/save@v4
       with:
-        path: ${{ inputs.cache-file-path }}
+        path: .slidev-projects.list
         key: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}
