@@ -1,6 +1,5 @@
-name: Prepare Slidev Projects
-description: Generate and cache list of slidev projects, detect changes in project list
-author: Kent
+name: List Slidev Projects
+description: Scan and generate cached list of slidev projects, detect changes in project list
 
 outputs:
   updated:
@@ -14,7 +13,7 @@ runs:
       id: cache-projects-restore
       uses: actions/cache/restore@v4
       with:
-        path: .slidev-projects.list
+        path: .github/.cache/slidev-projects.list
         key: ${{ runner.os }}-slidev-projects-v1
 
     - name: Generate slidev project list
@@ -31,17 +30,17 @@ runs:
       run: |
         mkdir -p .github/.cache
 
-        if ! diff -q current.list .slidev-projects.list >/dev/null 2>&1; then
+        if ! diff -q current.list .github/.cache/slidev-projects.list >/dev/null 2>&1; then
           echo "updated=true" >> $GITHUB_OUTPUT
-          cp current.list .slidev-projects.list
+          cp current.list .github/.cache/slidev-projects.list
         else
           echo "updated=false" >> $GITHUB_OUTPUT
-          cat .slidev-projects.list
+          cat .github/.cache/slidev-projects.list
         fi
 
     - name: Save slidev project list to cache
       if: steps.check-update.outputs.updated == 'true'
       uses: actions/cache/save@v4
       with:
-        path: .slidev-projects.list
+        path: .github/.cache/slidev-projects.list
         key: ${{ steps.cache-projects-restore.outputs.cache-primary-key }}

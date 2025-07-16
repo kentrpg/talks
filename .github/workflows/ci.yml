@@ -10,28 +10,26 @@ permissions:
   contents: read
 
 jobs:
-  prepare-projects:
+  list-slidev-projects:
     runs-on: ubuntu-latest
     outputs:
       updated: ${{ steps.prepare.outputs.updated }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Prepare projects
+      - name: List slidev projects
         id: prepare
-        uses: ./.github/actions/prepare-projects
+        uses: ./.github/actions/list-slidev-projects
 
   changes:
     runs-on: ubuntu-latest
-    needs: prepare-projects
+    needs: list-slidev-projects
     outputs:
       has_changed: ${{ steps.filter.outputs.modified_or_added }}
       changed_files: ${{ steps.filter.outputs.changed_files }}
       projects: ${{ steps.list.outputs.projects }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Detect changes in slidev projects
         id: filter
@@ -62,7 +60,7 @@ jobs:
           projects=$(echo "$changed" \
             | tr ' ' '\n' \
             | cut -d/ -f1 \
-            | grep -Ff <(cat .github/.cache/slidev-projects.list) \
+            | grep -Ff <(cat .slidev-projects.list) \
             | sort -u \
             | jq -Rc '[splits("\n") | select(. != "")]' \
             || echo "[]"
