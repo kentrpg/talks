@@ -1,0 +1,20 @@
+:root {
+  --slidev-code-padding: 8px 10px;
+  --slidev-code-background: 253 253 247;
+  --slidev-theme-primary: #141413; /* .slidev-layout h1 */
+}
+
+.slidev-layout {
+  background-image: none !important;
+}
+
+.slidev-layout.cover h1 {
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--slidev-theme-primary);
+  line-height: 4rem;
+}
+
+.slidev-slide-content {
+  background-color: rgb(var(--slidev-code-background) / var(--un-bg-opacity)) !important;
+}

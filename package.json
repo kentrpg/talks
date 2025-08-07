@@ -3,6 +3,9 @@
   "type": "module",
   "private": true,
   "packageManager": "pnpm@10.10.0",
+  "patchedDependencies": {
+    "markdown-it-mdc@0.2.6": "patches/markdown-it-mdc@0.2.6.patch"
+  },
   "scripts": {
     "dev": "pnpm run picker dev --open",
     "build": "rimraf dist && pnpm run picker build",
@@ -34,5 +37,8 @@
     "typescript": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "catalog:"
+  },
+  "dependencies": {
+    "markdown-it-mdc": "0.2.6"
   }
 }
