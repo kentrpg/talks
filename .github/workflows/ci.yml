@@ -62,7 +62,7 @@ jobs:
             | cut -d/ -f1 \
             | grep -Ff <(cat .github/.cache/slidev-projects.list) \
             | sort -u \
-            | jq -Rc '[splits("\n") | select(. != "")]' \
+            | jq -R -s -c 'split("\n") | map(select(. != ""))' \
             || echo "[]"
           )
           echo "📦 Extracted projects: $projects"
