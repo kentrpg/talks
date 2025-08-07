@@ -4,10 +4,10 @@ import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import prompts from 'prompts'
 
-async function startPicker(args: string[]) {
+export async function startPicker(args: string[]) {
   const subdirectory = 'src'
   const slidevName = 'slides.md'
-  const folders = (await fs.readdir(new URL('..', import.meta.url), { withFileTypes: true }))
+  const folders = (await fs.readdir(new URL('../../', import.meta.url), { withFileTypes: true }))
     .filter(dirent => dirent.isDirectory())
     .map(dirent => dirent.name)
     .filter(folder => folder.match(/^\d{4}-/))
@@ -27,7 +27,7 @@ async function startPicker(args: string[]) {
   args = args.filter(arg => arg !== '-y')
 
   if (result.folder) {
-    const srcPath = new URL(`../${result.folder}/${subdirectory}`, import.meta.url)
+    const srcPath = new URL(`../../${result.folder}/${subdirectory}`, import.meta.url)
     const slidevPath = new URL(`${srcPath}/${slidevName}`, import.meta.url)
 
     if (args[0] === 'dev')
@@ -51,7 +51,7 @@ async function startPicker(args: string[]) {
           fileName = slugTitle
       }
 
-      args.push('--output', `../${fileName}.pdf`)
+      args.push('--output', `../../${fileName}.pdf`)
     }
     await execa('pnpm', ['run', ...args], {
       cwd: srcPath,
@@ -60,4 +60,7 @@ async function startPicker(args: string[]) {
   }
 }
 
-await startPicker(process.argv.slice(2))
+// await startPicker(process.argv.slice(2))
+if (import.meta.url === `file://${process.argv[1]}`) {
+  startPicker(process.argv.slice(2))
+}

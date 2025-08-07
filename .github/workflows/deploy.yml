@@ -27,11 +27,8 @@ jobs:
         with:
           node-version: 'lts/*'
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v4
-
       - name: Setup @antfu/ni
-        run: pnpm add -g @antfu/ni
+        run: npm i -g @antfu/ni
 
       - name: Install root dependencies
         run: nci
