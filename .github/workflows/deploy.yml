@@ -7,6 +7,12 @@ on:
         description: 'Presentation folder name (e.g., 2025-06-06)'
         required: false
         type: string
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - main
 
 permissions:
   contents: read
