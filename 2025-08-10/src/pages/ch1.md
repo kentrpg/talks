@@ -3,10 +3,10 @@ layout: quote
 transition: slide-left
 ---
 
-# TypeScript{.font-bold.text-hex-528ECC} 解決了什麼問題 ？
+# TypeScript{.text-hex-528ECC} 解決了什麼問題 ？
 
 <!--
-🙋‍♂️ JavaScript 有什麼痛點？[click]
+🙋‍♂️ 大家覺得 JavaScript 有什麼痛點？[click]
 -->
 
 ---
@@ -14,7 +14,7 @@ layout: fact
 transition: slide-left
 ---
 
-# 自動轉型 {.important-font-bold}
+# 自動轉型
 
 ---
 layout: two-cols-duration
@@ -23,7 +23,7 @@ transition: slide-left
 
 ::left::
 
-<div duration-slow :class="[{'translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
+<div duration-slow :class="[{'scale-150 translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
   <div text-center>
     <devicon-javascript text-3xl mb-2 />
   </div>
@@ -60,7 +60,7 @@ layout: fact
 transition: slide-left
 ---
 
-# 型別檢查時機 {.important-font-bold}
+# 型別檢查時機
 
 ---
 layout: two-cols-duration
@@ -69,7 +69,7 @@ transition: slide-left
 
 ::left::
 
-<div class="duration-slow" :class="[{'translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
+<div class="duration-slow" :class="[{'scale-150 translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
   <div text-center>
     <devicon-javascript class="text-3xl mb-3" />
     <div class="text-xl mb-2">runtime 執行階段</div>
@@ -113,7 +113,7 @@ layout: fact
 transition: slide-left
 ---
 
-# IntelliSense 提示 {.important-font-bold}
+# IntelliSense 提示
 
 <!-- IDE 智能補全，例如提示變數、方法和屬性 [click] -->
 
@@ -126,7 +126,7 @@ transition: slide-left
 <img src="/assets/hint.png" />
 
 <!--
-IDE 會提供 TypeScript 定義參數的型別相關提示訊息。
+IDE 會根據 TypeScript 定義參數的型別來提供相關的提示訊息。
 getLength [click]
 -->
 ---
@@ -185,5 +185,5 @@ transition: slide-left
 目前我們已經對靜態型別語言的特性與型別約束機制有了初步認識。
 基本上，JavaScript 有的功能，TypeScript 全部都有，所以可以說 TypeScript 是 JavaScript 的超集。 [click]
 所謂「超集」，就是在保留原有功能的基礎上進行擴展。
-就像超級賽亞人是賽亞人進化版一樣 [click]
+就好比超級賽亞人是賽亞人的進化一樣 [click]
 -->
