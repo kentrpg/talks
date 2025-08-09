@@ -20,6 +20,8 @@
     "@antfu/eslint-config": "catalog:",
     "@eslint/config-inspector": "catalog:",
     "@eslint/markdown": "catalog:",
+    "@iconify-json/devicon": "catalog:",
+    "@iconify-json/vscode-icons": "catalog:",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
     "@slidev/theme-seriph": "catalog:",
@@ -31,14 +33,12 @@
     "esno": "catalog:",
     "execa": "catalog:",
     "markdown-it-magic-link": "catalog:",
+    "monaco-editor": "catalog:",
     "playwright-chromium": "catalog:",
     "rimraf": "catalog:",
     "seedrandom": "catalog:",
     "typescript": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "catalog:"
-  },
-  "dependencies": {
-    "markdown-it-mdc": "0.2.6"
   }
 }

@@ -1,5 +1,4 @@
 import config from '@slidev/client/uno.config.ts'
-import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
 import { mergeConfigs, presetWebFonts } from 'unocss'
 
 export default mergeConfigs([
@@ -9,15 +8,13 @@ export default mergeConfigs([
       ...(config.variants ?? []),
     ],
     safelist: [
-      'grid-rows-[max-content_1fr]',
-      'translate-x-[17rem]',
-      'translate-x-[12rem]',
+      'i-devicon:typescript',
+      'forward:duration-slow',
+      'forward:duration-slow-sub',
     ],
     shortcuts: {
-      'text-primary': 'text-hex-141413',
-      'title-primary': 'text-hex-141413 font-bold',
-      'subtitle-delay': 'duration-slow delay-200',
-      'title-delay': 'translate-y-[13rem] scale-120',
+      'duration-slow-sub': 'duration-slow delay-200',
+      'title-delay': 'translate-y-[13rem] important-text-[3em]',
     },
     presets: [
       presetWebFonts({
@@ -30,6 +27,7 @@ export default mergeConfigs([
     ],
     rules: [
       ['duration-slow', { 'transition-duration': '400ms !important' }],
+      ['text-last-end', { 'text-align-last': 'end !important' }],
       // 支援 grid-rows-[max-content_1fr] 加上 !important
       [/^grid-rows-\[(.+)\]$/, ([, d]) => ({
         'grid-template-rows': `${d.replace(/_/g, ' ')} !important`,

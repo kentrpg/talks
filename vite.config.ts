@@ -15,9 +15,7 @@ export default defineConfig({
       markdownItSetup(md) {
         md.use(MarkdownItMagicLink, {
           linksMap: {
-            Slidev: 'https://github.com/slidevjs/slidev',
-            Vercel: { link: 'https://vercel.com', imageUrl: 'https://github.com/vercel.png' },
-            Vue: 'https://github.com/vuejs/core',
+            vscode: 'https://github.com/microsoft/vscode',
           },
         })
       },

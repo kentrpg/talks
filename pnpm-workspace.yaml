@@ -9,12 +9,15 @@ catalog:
   '@slidev/theme-seriph': ^0.25.0
   '@types/node': ^24.0.8
   '@types/prompts': ^2.4.9
+  '@iconify-json/devicon': ^1.2.36
+  '@iconify-json/vscode-icons': ^1.2.24
   eslint: ^9.22.0
   eslint-plugin-format: ^1.0.1
   eslint-plugin-markdown: ^5.1.0
   esno: ^4.8.0
   execa: ^9.6.0
   markdown-it-magic-link: ^0.1.4
+  monaco-editor: ^0.52.2
   playwright-chromium: ^1.53.2
   rimraf: ^6.0.1
   seedrandom: ^3.0.5
