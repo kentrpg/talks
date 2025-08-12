@@ -93,7 +93,7 @@ jobs:
         run: |
           changed="${{ needs.changes.outputs.changed_files }}"
           echo "$changed" | tr ' ' '\n' > changed.list
-          npx eslint $(cat changed.list)
+          npx eslint --config eslint.config.js $(cat changed.list)
 
   typecheck:
     needs: changes
