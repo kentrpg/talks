@@ -4,6 +4,7 @@ catalog:
   '@antfu/eslint-config': ^4.16.2
   '@eslint/config-inspector': ^1.1.0
   '@eslint/markdown': ^6.6.0
+  '@shikijs/transformers': ^3.9.2
   '@slidev/cli': ^52.1.0
   '@slidev/theme-default': ^0.25.0
   '@slidev/theme-seriph': ^0.25.0

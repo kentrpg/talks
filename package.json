@@ -22,6 +22,7 @@
     "@eslint/markdown": "catalog:",
     "@iconify-json/devicon": "catalog:",
     "@iconify-json/vscode-icons": "catalog:",
+    "@shikijs/transformers": "catalog:",
     "@slidev/cli": "catalog:",
     "@slidev/theme-default": "catalog:",
     "@slidev/theme-seriph": "catalog:",
