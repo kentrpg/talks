@@ -27,7 +27,7 @@ export default antfu(
     },
   },
   {
-    files: ['**/*.md/**/*.js', '**/*.md/**/*.ts', '**/*.md/**/*.jsx', '**/*.md/**/*.tsx', '**/*.md/**/*.md', '**/*.md/**/*.yaml'],
+    files: ['**/*.md/**/*.js', '**/*.md/**/*.ts', '**/*.md/**/*.jsx', '**/*.md/**/*.tsx', '**/*.md/**/*.md', '**/*.md/**/*.yaml', '**/*.md/**/*.css'],
     rules: {
       'style/eol-last': 'off',
       'prefer-const': 'off',
