@@ -18,7 +18,7 @@ catalog:
   esno: ^4.8.0
   execa: ^9.6.0
   markdown-it-magic-link: ^0.1.4
-  monaco-editor: ^0.52.2
+  monaco-editor: ^0.53.0
   playwright-chromium: ^1.53.2
   rimraf: ^6.0.1
   seedrandom: ^3.0.5

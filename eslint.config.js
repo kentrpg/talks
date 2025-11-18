@@ -24,6 +24,8 @@ export default antfu(
     rules: {
       'style/eol-last': ['error', 'never'],
       'format/prettier': 'off',
+      'ts/consistent-type-definitions': ['error', 'type'],
+      'style/brace-style': ['error', '1tbs'],
     },
   },
   {
