@@ -21,13 +21,19 @@ This is a Slidev-based presentation workspace organized as a PNPM monorepo. It c
 ### Main Workspace Commands
 ```bash
 # Interactive presentation picker (recommended)
-pnpm picker dev          # Select and start dev server for a presentation
-pnpm picker build        # Select and build a presentation
-pnpm picker export       # Select and export a presentation
+pnpm picker dev          # Select presentation and start dev server + open Cursor IDE
+pnpm picker build        # Select presentation and build static files
+pnpm picker export       # Select presentation and export to PDF with smart filename
 
-# Direct commands
-pnpm dev                 # Start picker with dev command
-pnpm build               # Build selected presentation
+# Skip selection with -y flag (uses newest presentation)
+pnpm picker dev -y       # Auto-select newest presentation for development
+pnpm picker build -y     # Auto-select newest presentation for build
+pnpm picker export -y    # Auto-select newest presentation for export
+
+# Direct commands (shortcuts)
+pnpm dev                 # Equivalent to 'pnpm picker dev --open'
+pnpm build               # Clean dist folder and run 'pnpm picker build'
+pnpm export              # Equivalent to 'pnpm picker export'
 pnpm build:all           # Build all presentations in workspace
 pnpm lint                # Run ESLint across entire workspace
 pnpm typecheck           # Run TypeScript checking
@@ -51,7 +57,7 @@ talks/
 │   ├── components/      # Vue components
 │   ├── pages/           # Additional slide pages
 │   └── snippets/        # Code snippets
-├── scripts/picker.ts    # Interactive presentation selector
+├── scripts/dev/picker.ts # Interactive presentation selector
 ├── pnpm-workspace.yaml  # Workspace configuration
 └── shared configs...    # ESLint, Vite, UnoCSS configs
 ```
@@ -59,10 +65,12 @@ talks/
 ### Key Components
 
 #### Interactive Picker Script
-- **Location**: `scripts/picker.ts`
+- **Location**: `scripts/dev/picker.ts`
 - **Function**: Automatically detects date-based presentation folders
 - **Workflow**: Opens Cursor IDE with selected slides.md file during dev
-- **Usage**: Filters folders by `YYYY-MM-DD` pattern and sorts by date
+- **Usage**: Filters folders by `YYYY-MM-DD` pattern and sorts by date (newest first)
+- **Debug**: Shows folder count and list when running
+- **Smart Export**: Generates PDF filename from presentation title or folder name
 
 #### Shared Configuration
 - **Dependencies**: Managed via PNPM catalog references
@@ -84,10 +92,12 @@ talks/
 4. Use `pnpm picker dev` to start development
 
 ### Working with Existing Presentations
-1. Run `pnpm picker dev` to select presentation
-2. Picker automatically opens Cursor IDE with slides.md
-3. Development server starts at http://localhost:3030
-4. Edit slides.md and components for live preview
+1. Run `pnpm picker dev` to select presentation (or `pnpm dev` as shortcut)
+2. Picker shows available presentations and debug info
+3. After selection, Cursor IDE opens with slides.md file
+4. Development server starts at http://localhost:3030 with --open flag
+5. Edit slides.md and components for live preview
+6. Use `pnpm picker dev -y` to skip selection and use newest presentation
 
 ### Component Development
 - **Location**: `components/` directory within each presentation
@@ -115,9 +125,13 @@ talks/
 
 ### Picker Workflow
 - The picker script is the primary entry point for development
-- It automatically opens Cursor IDE when running dev command
+- **Dev Command**: Opens Cursor IDE with slides.md + starts dev server
+- **Build Command**: Cleans dist folder before building
+- **Export Command**: Generates smart filename from presentation title
 - Presentations are sorted by date (newest first)
 - Use `-y` flag to skip selection and use the newest presentation
+- Debug output shows  folder count and names for troubleshooting
+- Error handling for missing folders or invalid paths
 
 ### Shared Dependencies
 - All packages use catalog references for version management

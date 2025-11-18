@@ -98,6 +98,9 @@ importers:
       '@iconify-json/vscode-icons':
         specifier: 'catalog:'
         version: 1.2.29
+      '@shikijs/transformers':
+        specifier: 'catalog:'
+        version: 3.9.2
       '@slidev/cli':
         specifier: 'catalog:'
         version: 52.1.0(@babel/parser@7.28.0)(@nuxt/kit@3.18.1)(@types/markdown-it@14.1.2)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.18)(markdown-it-async@2.2.0)(playwright-chromium@1.54.2)(postcss@8.5.6)(tsx@4.20.4)
@@ -167,9 +170,6 @@ importers:
 
   2025-08-10/src:
     dependencies:
-      '@shikijs/transformers':
-        specifier: 'catalog:'
-        version: 3.9.2
       '@slidev/cli':
         specifier: 'catalog:'
         version: 52.1.0(@babel/parser@7.28.0)(@nuxt/kit@3.18.1)(@types/markdown-it@14.1.2)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.18)(markdown-it-async@2.2.0)(playwright-chromium@1.54.2)(postcss@8.5.6)(tsx@4.20.4)

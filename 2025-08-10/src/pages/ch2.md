@@ -25,7 +25,7 @@ layoutClass: gap-col-4
     <div text-xl>函式參數預設為 optional（可選）</div>
   </div>
 
-```js {monaco-run} {autorun:false}
+```js
 function increment(num) {
   return num + 1
 }
@@ -48,14 +48,14 @@ console.log(increment())
     <div text-xl>函式參數預設為 required（必填）</div>
   </div>
 
-```ts twoslash
-function increment(num: number) {
-  return num + 1
-}
+  ```ts twoslash
+  function increment(num: number) {
+    return num + 1
+  }
 
-console.log(increment(1))
-console.log(increment())
-```
+  console.log(increment(1))
+  console.log(increment())
+  ```
 
 <div v-click="2" class="mt-4 p-3 bg-red-50 border-l-4 border-red-400 text-sm">
   <div class="font-medium text-red-600">TypeScript 檢查</div>
@@ -94,21 +94,15 @@ layoutClass: gap-col-4
     <p>undefined 套用預設值，避免執行時錯誤</p>
   </div>
 
-```js {monaco-run}
-function increment(num = 1) {
-  return num + 1
+```js {monaco-run} {autorun:false}
+function increment(number = 1) {
+  return number + 1
 }
 
 console.log(increment(1))
 console.log(increment())
 ```
 </div>
-
-<!-- <div v-click="1" class="mt-4 p-3 bg-orange-50 border-l-4 border-orange-400 text-sm">
-  <div class="font-medium">JavaScript 行為</div>
-  <div>缺少參數時自動帶入 undefined</div>
-</div>
-</div> -->
 
 ::right::
 
@@ -118,7 +112,7 @@ console.log(increment())
     <p>預設值會影響型別推斷，避免型別檢查失敗</p>
   </div>
 
-```ts {monaco-run}
+```ts {monaco-run} {autorun:false, highlightOutput:false}
 function increment(num = 1) {
   return num + 1
 }
@@ -200,7 +194,7 @@ layoutClass: gap-col-4
 
 變數依照賦予的<mark>初始值</mark>進行推論
 
-```ts {monaco}
+```ts {monaco} {autorun:false}
 const name = 'Kent'
 const age = 30
 const isActive = true
@@ -213,7 +207,7 @@ const data = null
 
 函式依照<mark> return 值</mark>進行推論
 
-```ts {monaco}
+```ts {monaco} {autorun:false, height: 'auto', editorOptions: { wordWrap: 'on', wordBreak: 'keepAll' }}
 function getName() {
   return 'Kent'
 }
@@ -222,6 +216,15 @@ function calculate(a: number, b: number) {
   return a + b
 }
 ```
+
+<style>
+.slidev-code-wrapper {
+  width: 40%;
+}
+.shiki {
+  @apply mt-6;
+}
+</style>
 
 ---
 layout: fact
@@ -235,7 +238,9 @@ transition: slide-left
 <!-- 如何標註型別？ -->
 
 ---
+layout: two-cols-header
 transition: slide-left
+layoutClass: gap-col-4 grid-rows-max-1fr
 ---
 
 <div class="duration-slow mb-4" :class="[{'scale-150 translate-y-[13rem] translate-x-[23rem] font-bold' : $clicks < 2}]">
@@ -243,6 +248,7 @@ transition: slide-left
   <p v-click="1">宣告變數、參數時在<mark>後方</mark></p>
 </div>
 
+::left::
 <div forward:duration-slow-sub v-click="2">
 
 ### function{.font-500}
@@ -254,6 +260,7 @@ function increment(num: number) {
 ```
 </div>
 
+::right::
 <div class="duration-slow-sub mt-2" v-click="3">
 
 ### variable{.font-500}
@@ -275,5 +282,7 @@ let user: User = {
 </div>
 
 <!--
-型別推論和註記除了告訴編譯器型別是什麼之外，也是在建立一個允許的型別範圍。接下來我們用集合的概念來看看，TypeScript 型別約束機制的範圍檢查條件。
+現在我們了解了型別是如何建立的，透過型別推論和型別註記
+但建立型別其實是在做一件事：「定義允許的範圍」，並根據這個範圍來檢查是否符合
+接下來我們用集合的概念，來理解 TypeScript 如何檢查型別範圍。
 -->

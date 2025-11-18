@@ -1,59 +1,55 @@
 ---
-layout: quote
-transition: slide-left
----
-
-# TypeScript{.text-hex-528ECC} 解決了什麼問題 ？
-
-<!--
-🙋‍♂️ 大家覺得 JavaScript 有什麼痛點？[click]
--->
-
----
 layout: fact
 transition: slide-left
 ---
 
-# 自動轉型
+# 自動轉型 {.important-text-3em}
+
+<!--
+剛開始學 JavaScript 就對自動轉型感到困惑，就像是 [click]
+-->
 
 ---
-layout: two-cols-duration
+layout: two-cols
 transition: slide-left
+layoutClass: gap-4
 ---
 
-::left::
-
-<div duration-slow :class="[{'scale-150 translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
+<div duration-slow :class="[{'translate-y-[6rem] translate-x-[18rem]' : $clicks < 1}]">
   <div text-center>
     <devicon-javascript text-3xl mb-2 />
   </div>
 
-```js {monaco-run} {autorun:false}
-function multiply(a, b) {
-  return a * b
-}
-
-console.log(multiply('5', 2))
-console.log(multiply('five', 2))
-```
+  ```js twoslash
+  function multiply(a, b) {
+    return a * b
+  }
+  console.log(multiply('5', 2))
+  console.log(multiply('five', 2))
+  // @warn: 結果為 NaN，因為 'five' 無法轉換為數字
+  ```
 </div>
 
 ::right::
 
 <div class="forward:duration-slow-sub" v-click="1">
-<div text-center>
-  <devicon-typescript class="text-3xl mb-2" />
+  <div text-center>
+    <devicon-typescript class="text-3xl mb-2" />
+  </div>
+
+  ```ts twoslash
+  function multiply(a: number, b: number) {
+    return a * b
+  }
+
+  console.log(multiply('5', 2))
+  console.log(multiply('five', 2))
+  ```
 </div>
 
-```ts twoslash
-function multiply(a: number, b: number) {
-  return a * b
-}
-
-console.log(multiply('5', 2))
-console.log(multiply('five', 2))
-```
-</div>
+<!--
+一個函式會傳入兩個參數並將兩個參數相乘，大家覺得結果是什麼[click]
+-->
 
 ---
 layout: fact
@@ -75,7 +71,7 @@ transition: slide-left
     <div class="text-xl mb-2">runtime 執行階段</div>
   </div>
 
-```js {monaco-run} {autorun:false}
+```js {monaco-run} {autorun:false, height: 'auto', editorOptions: {wordWrap: 'on', wordBreak: 'keepAll'}}
 function getLength(str) {
   return str.length
 }
@@ -92,13 +88,13 @@ console.log(getLength(42))
     <div class="text-xl mb-2">compile 編譯階段</div>
   </div>
 
-```ts twoslash
-function getLength(str: string) {
-  return str.length
-}
+  ```ts twoslash
+  function getLength(str: string) {
+    return str.length
+  }
 
-console.log(getLength(42))
-```
+  console.log(getLength(42))
+  ```
 </div>
 
 <!--

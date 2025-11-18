@@ -26,6 +26,7 @@ export default mergeConfigs([
       }),
     ],
     rules: [
+      ['grid-rows-max-1fr', { 'grid-template-rows': 'max-content 1fr !important' }],
       ['duration-slow', { 'transition-duration': '400ms !important' }],
       ['text-last-end', { 'text-align-last': 'end !important' }],
       // 支援 grid-rows-[max-content_1fr] 加上 !important

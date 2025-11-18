@@ -1,7 +1,5 @@
 # Shiki Setup - Custom Annotation Transformer
 
-## 概述
-
 `createCustomAnnotationTransformer` 是一個基於 Shiki.js Transformer Hooks 的自定義註解轉換器，用於在 Slidev 代碼區塊中支援特殊的標記語法，並自動添加 Twoslash 風格的樣式。
 
 ## 功能特性

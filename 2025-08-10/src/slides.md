@@ -8,6 +8,7 @@ drawings:
 transition: fade-out
 mdc: true
 lang: zh-CN
+exportFilename: 2025-coscup
 title: 用 any 斬殺所有錯誤的勇者，轉生靠 let 和 const 覺醒型別之力，展開 TypeScript 之旅
 description: 從 JavaScript 角度切入 TypeScript 的核心，跳過複雜的進階語法（如 Utility Types），直接透過由淺入深的範例，剖析新手最常遇到的錯誤（如 implicitly has an any type），一步步建立扎實的型別思維以及認識型別安全機制。
 ---
@@ -30,15 +31,15 @@ description: 從 JavaScript 角度切入 TypeScript 的核心，跳過複雜的�
 
 # Agenda{.font-500}
 
-- TypeScript 與 JavaScript 差異
-- Type Inference 型別推論、Type Annotation 型別註記
-- Type Widening 型別擴展、Type Narrowing 型別限縮
+- 自動轉型：TypeScript 與 JavaScript 差異 {.text-6}
+- 型別建立：Type Inference 型別推論、Type Annotation 型別註記 {.text-6}
+- 型別範圍：值不可變、型別不可變 {.text-6}
 
 ---
-layout: fact
+layout: quote
 ---
 
-# TypeScript 與 JavaScript 差異 {.important-text-3em}
+# TypeScript{.text-hex-528ECC} 解決了什麼問題 ？
 
 ---
 src: ./pages/ch1.md
@@ -60,5 +61,20 @@ src: ./pages/ch2.md
 ---
 
 ---
-src: ./pages/thanks.md
+layout: fact
+---
+
+# 型別範圍 {.important-text-3em}
+
+<!--
+從 let 和 const 的變數宣告差異來看，兩大特性「變數能否重新指派、值是否可改變」
+接下來透過實際範例來看這兩點，會如何影響到型別推論與型別範圍。 [click]
+-->
+
+---
+src: ./pages/ch3.md
+---
+
+---
+src: ./pages/end.md
 ---
