@@ -23,9 +23,16 @@ export default antfu(
   {
     rules: {
       'style/eol-last': ['error', 'never'],
+      'style/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       'format/prettier': 'off',
       'ts/consistent-type-definitions': ['error', 'type'],
       'style/brace-style': ['error', '1tbs'],
+    },
+  },
+  {
+    files: ['**/*.vue/*.css'],
+    rules: {
+      'style/eol-last': 'off',
     },
   },
   {
