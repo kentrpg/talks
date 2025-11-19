@@ -27,12 +27,19 @@ export default antfu(
       'format/prettier': 'off',
       'ts/consistent-type-definitions': ['error', 'type'],
       'style/brace-style': ['error', '1tbs'],
+      'style/operator-linebreak': ['error', 'after'],
     },
   },
   {
     files: ['**/*.vue/*.css'],
     rules: {
       'style/eol-last': 'off',
+    },
+  },
+  {
+    files: ['**/*.ts'],
+    rules: {
+      'ts/prefer-as-const': 'off',
     },
   },
   {

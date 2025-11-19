@@ -1,6 +1,6 @@
 ---
 layout: fact
-transition: slide-top
+transition: slide-left
 ---
 
 # Function Parameters
