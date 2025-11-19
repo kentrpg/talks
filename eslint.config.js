@@ -27,7 +27,7 @@ export default antfu(
       'format/prettier': 'off',
       'ts/consistent-type-definitions': ['error', 'type'],
       'style/brace-style': ['error', '1tbs'],
-      'style/operator-linebreak': ['error', 'after'],
+      'style/operator-linebreak': ['error', 'before'],
     },
   },
   {

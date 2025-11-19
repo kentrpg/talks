@@ -19,17 +19,16 @@ const { currentSlideRoute } = useNav()
 
 export type Range = [number, number]
 
-export type Distribution =
-  'full' |
-  'top' |
-  'bottom' |
-  'left' |
-  'right' |
-  'top-left' |
-  'top-right' |
-  'bottom-left' |
-  'bottom-right' |
-  'center'
+export type Distribution = 'full'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'center'
 
 const frontmatter = computed(
   () => (currentSlideRoute.value.meta?.slide as any)?.frontmatter || {},
@@ -41,9 +40,9 @@ const hide = computed(() => frontmatter.value.growHide === 'true')
 const opacity = computed<number>(() => +(frontmatter.value.growOpacity || 0.4))
 const hue = computed<number>(() => +(frontmatter.value.growHue || 0))
 const seed = computed<string>(() =>
-  frontmatter.value.growSeed === 'false' || frontmatter.value.growSeed === false ?
-      Date.now().toString() :
-    frontmatter.value.growSeed || 'default',
+  frontmatter.value.growSeed === 'false' || frontmatter.value.growSeed === false
+    ? Date.now().toString()
+    : frontmatter.value.growSeed || 'default',
 )
 const overflow = 0.3
 const disturb = 0.3
