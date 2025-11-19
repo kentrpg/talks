@@ -8,6 +8,7 @@ drawings:
 transition: fade-out
 mdc: true
 lang: zh-CN
+exportFilename: typescript-type-narrowing-and-widening
 title: 型別限縮和擴展
 description: 從 TypeScript 的型別限縮和擴展切入，建立型別思維需要的核心概念。
 ---
