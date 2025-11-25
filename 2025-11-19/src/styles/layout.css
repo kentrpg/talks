@@ -32,98 +32,13 @@ body {
   font-weight: 400;
 }
 
-/* Hide default message before code execution when autorun:false */
-.slidev-runner-output {
-  font-size: var(--code-size) !important;
-  line-height: 1 !important;
-}
-
-[data-waitfor=".slidev-runner-output"]:not(:has(.slidev-runner-output)) {
-  display: none !important;
-}
-
-.slidev-monaco-container {
-  border: 1px solid #dedede;
-  background: var(--code-background) !important;
-  .monaco-editor {
-    --vscode-editor-background: var(--code-background) !important;
-    --vscode-editorGutter-background: var(--code-background) !important;
-  }
-}
-
-.twoslash-floating .twoslash-popup-container {
-  .twoslash-popup-code, .twoslash-popup-docs {
-    /* font-size: var(--slidev-code-font-size); */
-  }
-  .twoslash-popup-code:not(:has(+ .twoslash-popup-docs)) {
-    width: max-content !important;
-  }
-}
-
 /* Layout */
 .slidev-slide-content {
   background-color: var(--slidev-code-background) !important;
-}
-
-.slidev-layout.cover {
-  padding-right: 8rem;
-  padding-left: 8rem;
-
-  h1 {
-    font-size: 3rem;
-    font-weight: 500;
-    line-height: 4rem;
-    text-align: justify;
-    word-break: break-all;
-    overflow-wrap: break-word;
-    white-space: pre-line;
-    letter-spacing: 0.2px;
-    text-align-last: justify;
-    margin-bottom: 0;
-  }
-}
-
-.slidev-layout.quote h1 {
-  margin-bottom: 0;
 }
 
 .slidev-layout.fact, .slidev-layout.quote {
   h1 {
     @apply text-[3em] font-bold;
   }
-}
-
-.slidev-layout p, .slidev-layout h1 + p{
-  font-size: inherit;
-  font-weight: 400;
-  opacity: 1;
-  margin-top: 0;
-  margin-bottom: .5rem;
-}
-
-.slidev-layout a, .slidev-layout a:hover {
-  border-style: none;
-}
-
-.slidev-layout a:hover {
-  opacity: 0.5;
-}
-
-/* Magic Links */
-.markdown-magic-link {
-  display: inline-flex;
-  transform: translateY(5px);
-  line-height: 100%;
-  color: #000b;
-  --uno: gap-1 transition rounded px1 py1 mx--0.5 important-border-0 font-condensed;
-}
-
-.markdown-magic-link-image {
-  display: inline-block;
-  height: 1.2em;
-  width: 1.2em;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  border-radius: 2px;
 }
