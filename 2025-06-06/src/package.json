@@ -8,8 +8,9 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@antfu/eslint-config": "catalog:",
-    "@eslint/config-inspector": "catalog:",
-    "eslint": "catalog:"
+    "@slidev/cli": "catalog:",
+    "@slidev/theme-default": "catalog:",
+    "@slidev/theme-seriph": "catalog:",
+    "vue": "catalog:"
   }
 }
