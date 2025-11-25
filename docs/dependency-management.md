@@ -35,12 +35,20 @@
 ```yaml
 # pnpm-lock.yaml 結果
 importers:
-  2025-11-19/src:
-    dependencies:
-      '@slidev/cli': version: 52.9.1  # 指向同一個實例
-  2025-11-25/src:
-    dependencies:
-      '@slidev/cli': version: 52.9.1  # 指向同一個實例
+  .:
+    2025-11-19/src:
+      dependencies:
+        # 指向同一個實例 '@slidev/cli': version: 52.9.1
+        '@slidev/cli':
+          specifier: 'catalog:'
+          version: 52.9.1
+
+    2025-11-25/src:
+      dependencies:
+        # 指向同一個實例 '@slidev/cli': version: 52.9.1
+        '@slidev/cli':
+          specifier: 'catalog:'
+          version: 52.9.1
 ```
 
 **實際檔案結構**:
