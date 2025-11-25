@@ -15,7 +15,7 @@ description: 從 TypeScript 的型別限縮和擴展切入，建立型別思維�
 
 <h1>
 
-<devicon-typescript class="text-4xl mb-3" /> 型別範圍的<span :class="[{'text-red-500' : $clicks > 0}]">限縮</span>和<span :class="[{'text-red-500' : $clicks > 1}]">擴展</span>
+<devicon-typescript class="text-4xl mb-3 font-500" /> 型別範圍的<span :class="[{'text-red-500' : $clicks > 0}]">限縮</span>和<span :class="[{'text-red-500' : $clicks > 1}]">擴展</span>
 
 </h1>
 
@@ -102,7 +102,7 @@ function increment(num) {
 </div>
 
 <!--
-[click]
+隱性型別 [click]
 那 any 型別是怎麼來的呢？ [click]
 any 屬於最寬鬆的型別允許變數是任何型別，導致失去了型別檢查機制 [click] 官方文件有提到
 [click] 雖然建議避免使用 any 型別，但有些情況除外，例如：從 JavaScript 轉移到 TypeScript 的過程中，any 可以作為一個過渡的型別，讓專案逐步導入型別宣告。[click]
@@ -235,17 +235,17 @@ wideNum = narrowNum     // 賦值成功：18 是 number 的子集合
     bg-hex-FFB429 text-2xl text-hex-203868 font-500 flex="~ items-center justify-center"
     forward:duration-slow-sub
     v-click="1"
-    :class="[{'hstack-left' : $clicks > 2}]"
+    :class="[{'!w-45 !h-45 !left-50% translate-x--50% !top-62 !items-start' : $clicks > 2}]"
   >
-    <div>number</div>
+    <div :class="[{'translate-y-6' : $clicks > 2}]">number</div>
   </div>
   <div
     absolute w-35 h-35 left-20 top-78 border="~ none rounded-full"
     bg-hex-FBDD7A text-2xl text-hex-203868 font-500 flex="~ items-center justify-center"
     forward:duration-slow-sub
     v-click="2"
-    :class="[{'hstack-right' : $clicks > 2}]"
-  >
+    :class="[{'!w-27 !h-27 !left-50% translate-x--50% !top-78' : $clicks > 2}]"
+>
     <div>18</div>
   </div>
   <div
@@ -271,6 +271,10 @@ wideNum = narrowNum
 
 </div>
 <div v-click="1"></div>
+
+<!--
+大家覺得寬鬆的 wideNum 重新賦予一個具體的值後，型別會是什麼？[click]
+-->
 
 ---
 transition: slide-left
@@ -314,6 +318,11 @@ narrowNum = wideNum
     border="~ amber rounded-full" bg-hex-FDF6D8 text-2xl text-hex-203868 font-500
   ><span class="absolute top-47% translate-y--47% left-50% translate-x--50%">18</span></div>
 </div>
+
+<!--
+接下來這個範例是兩個都是具體的值，那 narrowNum 重新賦予後型別會是什麼？[click]
+不成立[click] 因為 18 是 number 的子集合，而 wideNum 是 number 的子集合，所以不成立
+-->
 
 ---
 transition: slide-left
@@ -359,6 +368,8 @@ function getLength(something: string | number): number {
 }
 ```
 
+<div v-drag="[82,115,305,110]" border="rounded-sm red 2" v-click />
+
 </div>
 
 ## as 斷言{.font-500.text-xl.mb-2.mt-6 v-click}
@@ -367,15 +378,24 @@ function getLength(something: string | number): number {
 
 ```ts twoslash
 function getLength(something: string | number): number {
-  if (typeof something !== 'string') {
+  if ((something as string).length) {
+    return (something as string).length
+  } else {
     return something.toString().length
   }
-
-  return (something as string).length
 }
 ```
 
+<div v-drag="[116,351,240,22]" border="rounded-sm red 2" />
+
+<v-drag pos="158,374,180,22" border="rounded-sm red 2"></v-drag>
+
 </div>
+
+<!--
+透過 if condition 式條件 typeof，限縮 condition 區塊內的型別[click]
+as 讓表達式推斷出，最窄 narrowest/ 最具體 most specific 的型別[click]
+-->
 
 ---
 transition: slide-left
